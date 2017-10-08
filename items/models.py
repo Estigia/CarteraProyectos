@@ -15,7 +15,7 @@ class Item(models.Model):
     create_time = models.DateTimeField(auto_now_add = True)
     update_time = models.DateTimeField(auto_now = True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -33,5 +33,5 @@ class File(models.Model):
     create_time = models.DateField(auto_now_add = True)
     item = models.ForeignKey('items.Item')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.file

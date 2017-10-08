@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('django.contrib.auth.urls', namespace='auth')),
     url(r'^items/', include('items.urls', namespace='items'))
+    url(r'^projects/', include('projects.urls', namespace='projects')),
 ]
 
 if settings.DEBUG:

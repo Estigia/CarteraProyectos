@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import (Project, Budget, Entry)
+from .models import Project, Budget, Entry
 
 class BudgetForm(forms.ModelForm):
     class Meta:

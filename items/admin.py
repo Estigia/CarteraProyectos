@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import Item
-from .models import File
+from .models import Item, File
+from .forms import ItemForm, FileForm
 
 
-class ItemAdmin(item.ModelAdmin):
+class ItemAdmin(admin.ModelAdmin):
     list_display = [
         "id",
         "name",
@@ -16,7 +16,7 @@ class ItemAdmin(item.ModelAdmin):
     ]
     form = ItemForm
 
-class FileAdmin(item.ModelAdmin):
+class FileAdmin(admin.ModelAdmin):
     list_display = [
         "id",
         "file",

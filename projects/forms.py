@@ -1,6 +1,14 @@
 from django import forms
 
-from .models import (Project, Bugdet, Entry)
+from .models import (Project, Budget, Entry)
+
+class BudgetForm(forms.ModelForm):
+    class Meta:
+        model = Budget
+        fields = [
+        "amount",
+        ]
+
 
 class ProjectForm(forms.ModelForm):
     class Meta:
@@ -14,21 +22,9 @@ class ProjectForm(forms.ModelForm):
             "snip",
             "nog",
             "smip",
-            "create_time",
-            "update_time",
-            "Budget_id",
-            "User_id",
+            "budget",
+            # "user",
         ]
-
-class BudgetForm(forms.ModelForm):
-    class Meta:
-        model = Budget
-        fields = [
-            "amount",
-            "create_time",
-            "update_time",
-        ]
-
 
 class EntryForm(forms.ModelForm):
     class Meta:
@@ -38,7 +34,5 @@ class EntryForm(forms.ModelForm):
             "quantity",
             "unity",
             "unit_cost",
-            "create_time",
-            "update_time",
-            "Budget_id",
+            "budget",
         ]

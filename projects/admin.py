@@ -6,6 +6,14 @@ from .models import (Project, Budget, Entry)
 
 from .forms import (ProjectForm, BudgetForm, EntryForm)
 
+class BudgetAdmin(admin.ModelAdmin):
+    list_display = [
+    "id",
+    "amount",
+    "create_time",
+    "update_time",
+    ]
+    form = BudgetForm
 
 class ProjectAdmin(admin.ModelAdmin):
     list_display = [
@@ -20,21 +28,13 @@ class ProjectAdmin(admin.ModelAdmin):
         "smip",
         "create_time",
         "update_time",
-        "Budget_id",
-        "User_id",
+        "budget",
+        # "user",
     ]
     form = ProjectForm
 
-class BudgetAdmin(Admin.ModelAdmin):
-    list_display = [
-        "id",
-        "amount",
-        "create_time",
-        "update_time",
-    ]
-    form = BudgetForm
 
-class EntryAdmin(Admin.ModelAdmin):
+class EntryAdmin(admin.ModelAdmin):
     list_display = [
         "id",
         "description",
@@ -43,7 +43,7 @@ class EntryAdmin(Admin.ModelAdmin):
         "unit_cost",
         "create_time",
         "update_time",
-        "Budget_id",
+        "budget",
     ]
     form = EntryForm
 

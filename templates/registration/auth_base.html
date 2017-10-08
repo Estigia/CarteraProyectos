@@ -1,0 +1,46 @@
+{% load staticfiles %}
+<!doctype html>
+<html class="no-js" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title> {% block title %}{% endblock %}</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <!-- Place favicon.ico in the root directory -->
+    <link rel="stylesheet" href="{% static 'css/vendor.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/app-blue.min.css' %}">
+  </head>
+
+  <body>
+  <div class="auth">
+    <div class="auth-container">
+      <div class="card">
+        <header class="auth-header">
+          <h1 class="auth-title">
+            <div class="brand">
+              <img src="{% static 'assets/logo.png' %}" style="width: 100%;">
+            </div>
+          </header>
+          <div class="auth-content">
+            {% block content %}
+            {% endblock %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Reference block for JS -->
+    <div class="ref" id="ref">
+      <div class="color-primary"></div>
+      <div class="chart">
+        <div class="color-primary"></div>
+        <div class="color-secondary"></div>
+      </div>
+    </div>
+    <script src="{% static 'js/vendor.min.js' %}"></script>
+    <script src="{% static 'js/app.js' %}"></script>
+  </body>
+
+</html>

@@ -10,8 +10,8 @@ class Item(models.Model):
         ('2','Finalizado'),
     )
     status = models.CharField(max_length = 1, choices=STATUS_PROJECT_CHOICES)
-    project = models.ForeignKey('projects.Project')
-    budget = models.ForeignKey('budgets.Budget')
+    # project = models.ForeignKey('projects.Project')
+    # budget = models.ForeignKey('budgets.Budget')
     create_time = models.DateTimeField(auto_now_add = True)
     update_time = models.DateTimeField(auto_now = True)
 

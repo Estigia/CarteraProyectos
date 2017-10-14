@@ -1,0 +1,142 @@
+{% load staticfiles %}
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title> {% block title %}{% endblock %} | EMAX</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <!-- Place favicon.ico in the root directory -->
+  <link rel="stylesheet" href="{% static 'css/app-blue.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/vendor.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/jquery.json-viewer.css' %}">
+</head>
+
+<body>
+  <div class="main-wrapper">
+    <div class="app sidebar-fixed" id="app">
+      <header class="header">
+        <div class="header-block header-block-collapse hidden-lg-up"> <button class="collapse-btn" id="sidebar-collapse-btn">
+          <i class="fa fa-bars"></i>
+        </button> </div>
+        <div class="header-block header-block-nav">
+          <ul class="nav-profile">           
+            <li class="profile dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                <div class="img" > <i class = "fa fa-user" aria-hidden = "true"></i> </div> <span class="name">
+                  {{user.get_user_profile}}
+                </span> </a>
+                <div class="dropdown-menu profile-dropdown-menu" aria-labelledby="dropdownMenu1">
+                  <a class="dropdown-item" href=""> <i class="fa fa-user icon"></i> Profile </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href=""> <i class="fa fa-power-off icon"></i> Logout </a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </header>
+        <aside class="sidebar">
+          <div class="sidebar-container">
+            <div class="sidebar-header">
+              <div class="brand">
+                <img src="{% static 'assets/logo.png' %}" style="width: 100%;">
+              </div>
+              <nav class="menu">
+                <ul class="nav metismenu" id="sidebar-menu">
+                  <li>
+                    <a href=""> <i class="fa fa-home"></i> Dashboard </a>
+                  </li>
+                  <li class="">
+                    <a href="#"> <i class="fa fa-file-excel-o" aria-hidden="true"></i> Files Manager <i class="fa arrow"></i> </a>
+                    <ul>
+                      {% if user.is_vendor_supplier %}
+                      <li class=""> <a href="">
+                        Upload File
+                      </a> </li>
+                      {% endif %}
+                      <li> <a href="">
+                        Files List
+                      </a> </li>
+                    </ul>
+                  </li>
+                  {% if user.is_admin %}
+                  <li>
+                    <a href="#"> <i class="fa fa-users"></i> Users <i class="fa arrow"></i> </a>
+                    <ul>
+                      <li> <a href="">
+                        Suppliers
+                      </a> </li>
+                      <li> <a href="">
+                        Administrators
+                      </a> </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <a href="#"> <i class="fa fa-cogs"></i> Configurations <i class="fa arrow"></i> </a>
+                    <ul>
+                      <li> <a href="">
+                        Reports
+                      </a></li>
+                      <li> <a href="">
+                        Frequencies
+                      </a> </li>
+                      <li> <a href="">
+                        Messages
+                      </a> </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <a href=""> <i class="fa fa-file-code-o"></i> Scripts </a>
+                  </li>
+                  <li><a href=""><i class="fa fa-archive"></i> Activity Log </a></li>
+                  {% endif %}
+                </ul>
+              </nav>
+            </div>
+            {% if user.is_admin %}
+            <footer class="sidebar-footer">
+              <ul class="nav metismenu" id="customize-menu">
+                <li>
+                  <a href=""> <i class="fa fa-trash"></i> Trash </a>
+                </li>
+              </ul>
+            </footer>
+            {% endif %}
+          </aside>
+          <div class="sidebar-overlay" id="sidebar-overlay"></div>
+          <article class="content {% block main-class %}{% endblock %}">
+            {% block content %}
+            {% endblock %}
+          </article>
+          <!-- <footer class="footer">
+            <div class="footer-block buttons"></div>
+            <div class="footer-block author">
+            </div>
+          </footer> -->
+    </div>
+  </div>
+  <!-- Reference block for JS -->
+  <div class="ref" id="ref">
+    <div class="color-primary"></div>
+    <div class="chart">
+      <div class="color-primary"></div>
+      <div class="color-secondary"></div>
+    </div>
+  </div>
+  <script src="{% static 'js/jquery-3.2.1.min.js' %}" type="text/javascript"></script>
+  <script src="{% static 'js/jquery-dateFormat.min.js' %}"  type="text/javascript"></script>
+  <script src="{% static 'js/vendor.min.js' %}"></script>
+  <script src="{% static 'js/app.js' %}"></script>
+  <script src="{% static 'js/bootstrap-datepicker.min.js' %}" type="text/javascript"></script>
+  <script src="{% static 'js/jquery.json-viewer.js' %}" type="text/javascript"></script>
+  <script src='https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=a2xm90w1gk4ffj39jrueurwd0azfw22rmvawv1av9cw4vzg9'></script>
+  {% block js %}
+  {% endblock %}
+</body>
+
+</html>

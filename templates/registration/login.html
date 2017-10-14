@@ -1,0 +1,46 @@
+{% extends 'registration/auth_base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}LOGIN{% endblock %}
+
+{% block content %}
+{% if messages %}
+  {% for message in messages %}
+  {% if message.tags %}
+    {% if message.tags == 'error' %}
+    <p class="text-xs-center text-danger">{{message}}</p>
+    {% else %}
+    <p class="text-{{ message.tags }}">{{message}}</p>
+    {% endif %}
+  {% endif %}
+  {% endfor %}
+{% else %}
+  <p class="text-xs-center">LOGIN TO CONTINUE</p>
+{% endif %}
+
+{% if next %}
+    {% if user.is_authenticated %}
+    <p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+    {% else %}
+    <p>Please login to see this page.</p>
+    {% endif %}
+{% endif %}
+
+<form id="login-form" action="" method="POST">
+  {% csrf_token %}
+  <div class="form-group"> {{ form.username.label_tag }} {{ form.username | append_attr:"class:form-control underlined" }} </div>
+  <div class="form-group"> {{ form.password.label_tag }} {{form.password | append_attr:"class:form-control underlined" }} </div>
+  <div class="form-group">
+    <button type="submit" class="btn btn-block btn-primary">Login</button>
+    <input type="hidden" name="next" value="{{ next }}" />
+  </div>
+  <div class="form-group">
+    <p class="text-muted text-xs-center">Do not have an account? <a href="#">Sign Up!</a></p>
+  </div>
+</form>
+
+{# Assumes you setup the password_reset view in your URLconf #}
+<p><a href="{% url 'auth:password_reset' %}">Lost password?</a></p>
+
+{% endblock %}

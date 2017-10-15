@@ -1,0 +1,72 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-10-15 13:24-0600\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: CarteraProyectos/settings.py:112
+msgid "English"
+msgstr ""
+
+#: CarteraProyectos/settings.py:113
+msgid "Spanish"
+msgstr ""
+
+msgid "Name"
+msgstr "Nombre"
+
+msgid "Status"
+msgstr "Estado"
+
+msgid "Amount"
+msgstr "Monto"
+
+msgid "create_time"
+msgstr "Fecha de creación"
+
+msgid "update_time"
+msgstr "Fecha de modificación"
+
+msgid "Location"
+msgstr "Ubicación"
+
+msgid "Project type"
+msgstr "Tipo de proyecto"
+
+msgid "Attendant"
+msgstr "Encargado"
+
+msgid "Budget"
+msgstr "Presupuesto"
+
+msgid "Description"
+msgstr "Descripción"
+
+msgid "Quantity"
+msgstr "Cantidad"
+
+msgid "Unity"
+msgstr "Unidad"
+
+msgid "Unit cost"
+msgstr "Costo unitario"
+
+msgid "File"
+msgstr "Archivo"
+
+msgid "Item"
+msgstr "Item"

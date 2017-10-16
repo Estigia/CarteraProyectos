@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Agregar Proyecto{% endblock %}
+
+{% block content %}
+<div class="title-block">
+  <h3 class="title">Agregar Proyecto</h3>
+  <p class="title-description">Ingrese la información del proyecto acá.</p>
+</div>
+<section class="section">
+  <div class="row sameheight-container">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="card card-block sameheight-item">
+          <div class="col-xs-12 col-sm-10 col-md-6 offset-md-3 offset-sm-1">
+            <form action="" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="{{ form.name.auto_id }}" class="control-label">{{form.name.label}}</label>
+                {{ form.name | append_attr:"class: form-control underlined" }}
+                <p class="text-danger">{{form.name.errors.as_text}}</p>
+              </div>
+              <div class="form-group">
+                <label for="{{form.status.auto_id}}" class="control-label">{{form.status.label}}</label>
+                {{form.status | append_attr:'class: form-control underlined'}}
+                <p class="text-danger">{{form.status.errors.as_text}}</p>
+              </div>
+              <div class="form-group">
+                <label for="{{form.location.auto_id}}" class="control-label">{{form.location.label}}</label></br>
+                <p class="text-danger">{{form.location | append_attr:'class: form-control' | attr:'rows:3'}}</p>
+              </div>
+              <div class="form-group">
+                <label for="{{form.project_type.auto_id}}" class="control-label">{{form.project_type.label}}</label></br>
+                <p class="text-danger">{{form.project_type | append_attr:'class: form-control underlined'}}</p>
+              </div>
+              <div class="form-group">
+                <label for="{{form.attendant.auto_id}}" class="control-label">{{form.attendant.label}}</label></br>
+                <p class="text-danger">{{form.attendant | append_attr:'class: form-control underlined'}}</p>
+              </div>
+              <div class="form-group">
+                <label for="{{form.snip.auto_id}}" class="control-label">{{form.snip.label}}</label></br>
+                <p class="text-danger">{{form.snip | append_attr:'class: form-control underlined'}}</p>
+              </div>
+              <div class="form-group">
+                <label for="{{form.nog.auto_id}}" class="control-label">{{form.nog.label}}</label></br>
+                <p class="text-danger">{{form.nog | append_attr:'class: form-control underlined'}}</p>
+              </div>
+              <div class="form-group">
+                <label for="{{form.smip.auto_id}}" class="control-label">{{form.smip.label}}</label></br>
+                <p class="text-danger">{{form.smip | append_attr:'class: form-control underlined'}}</p>
+              </div>
+              <div class="form-group">
+                <label for="{{form.budget.auto_id}}" class="control-label">{{form.budget.label}}</label></br>
+                <p class="text-danger">{{form.budget | append_attr:'class: form-control underlined'}}</p>
+              </div>
+              <div class="form-group text-xs-right">
+                <a href="{% url 'projects:project_list' %}" class="btn btn-danger btn-lg">
+                  <i class="fa fa-times" aria-hidden="true"></i>
+                </a>
+                <button type="submit" name="Upload" class="btn btn-primary btn-lg">
+                  <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

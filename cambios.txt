@@ -1,0 +1,2 @@
+. Nombre del presupuesto.
+. Indicarle al usuario los campos requeridos.

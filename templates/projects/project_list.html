@@ -1,3 +1,130 @@
-{% for project in projects %}
-{{project}}
+{% extends 'base.html' %}
+
+{% block title %}Proyectos{% endblock %}
+
+{% block main-class %}items-list-page{% endblock %}
+
+{% block content %}
+<div class="title-search-block">
+  <div class="title-block">
+    <div class="row">
+      <div class="col-md-6">
+        <h3 class="title"> Proyectos <a href="{% url 'projects:project_new' %}" class="btn btn-primary btn-sm rounded-s">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+          </a>
+        </h3>
+        <p class="title-description"> Lista de proyectos </p>
+      </div>
+    </div>
+  </div>
+  <div class="items-search">
+    <form method="get" action="{% url 'projects:project_list' %}" class="form-inline">
+      <div class="input-group"> <input id="name" name="name" value="{{request.GET.name}}" type="text" class="form-control boxed rounded-s" placeholder="Buscar por nombre..."> <span class="input-group-btn">
+        <button class="btn btn-secondary rounded-s" type="submit">
+          <i class="fa fa-search"></i>
+        </button>
+        </span> </div>
+    </form>
+  </div>
+</div>
+{% if messages %}
+{% for message in messages %}
+<h6><p {% if message.tags %}class="text-{{ message.tags }}"{% endif %}>{{message}}</p></h6>
 {% endfor %}
+{% endif %}
+<div class="card items">
+<ul class="item-list striped">
+<li class="item item-list-header hidden-sm-down">
+<div class="item-row">
+  <div class="item-col item-col-header item-col-title">
+    <div> <span>Nombre</span> </div>
+  </div>
+  <div class="item-col item-col-header item-col-author">
+    <div> <span>Encargado</span> </div>
+  </div>
+  <div class="item-col item-col-header item-col-stats">
+    <div> <span>Estado</span> </div>
+  </div>
+  <div class="item-col item-col-header item-col-date">
+    <div><span>Fecha de Creación</span></div>  
+  </div>
+  <div class="item-col item-col-header fixed item-col-actions-dropdown"> </div>
+</div>
+</li>
+{% for project in projects %}
+<li class="item">
+<div class="item-row">
+  <div class="item-col fixed pull-left item-col-title">
+    <div class="item-heading">Nombre</div>
+    <div>
+      <h4 class="item-title"> {{project}} </h4>
+    </div>
+  </div>
+  <div class="item-col item-col-author no-overflow">
+    <div class="item-heading">Encargado</div>
+    <div class="no-overflow">
+      {{project.attendant}}
+    </div>
+  </div>
+  <div class="item-col item-col-stats">
+    <div class="item-heading">Estado</div>
+    <div class="no-overflow"> {{project.get_status_display}}</div>
+  </div>
+  <div class="item-col item-col-date">
+    <div class="item-heading">Estado</div>
+    <div class="no-overflow"> {{project.create_time}}</div>
+  </div>
+  <div class="item-col fixed item-col-actions-dropdown">
+    <div class="item-actions-dropdown">
+      <a class="item-actions-toggle-btn"> <span class="inactive">
+        <i class="fa fa-cog"></i>
+      </span> <span class="active">
+        <i class="fa fa-chevron-circle-right"></i>
+      </span> </a>
+      <div class="item-actions-block">
+        <ul class="item-actions-list">
+          <li>
+            <a class="remove" href="#" > <i class="fa fa-trash-o "></i> </a>
+          </li>
+          <li>
+            <a class="edit" href="{% url 'projects:project_edit' project.id %}"> <i class="fa fa-pencil"></i> </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</li>
+{% endfor %}
+</ul>
+</div>
+{% if is_paginated %}
+<nav class="text-xs-right">
+  <ul class="pagination">
+      {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+        Prev
+        </a>
+      </li>
+      {% endif %}
+      {% with ''|center:page_obj.paginator.num_pages as range %}
+        {% for _ in range %}
+        <li class="page-item {% if forloop.counter == page_obj.number %}active{% endif %}">
+          <a href="?page={{forloop.counter}}" class="page-link">
+            {{ forloop.counter }}
+          </a>
+        </li>
+        {% endfor %}
+      {% endwith %}
+      {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+        Next
+        </a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}
+{% endblock %}

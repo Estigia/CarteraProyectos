@@ -8,7 +8,7 @@
   <title> {% block title %}{% endblock %} | EMAX</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="shortcut icon" type="image/ico" href="{% static 'assets/logo.ico' %}">
   <!-- Place favicon.ico in the root directory -->
   <link rel="stylesheet" href="{% static 'css/app-blue.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/vendor.min.css' %}">
@@ -28,13 +28,13 @@
           <ul class="nav-profile">           
             <li class="profile dropdown">
               <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                <div class="img" > <i class = "fa fa-user" aria-hidden = "true"></i> </div> <span class="name">
-                  {{user.get_user_profile}}
+                <div class="img" > <i class = "fa fa-user fa-lg" aria-hidden = "true"></i> </div> <span class="name">
+                  {{user.username}}
                 </span> </a>
                 <div class="dropdown-menu profile-dropdown-menu" aria-labelledby="dropdownMenu1">
-                  <a class="dropdown-item" href=""> <i class="fa fa-user icon"></i> Profile </a>
+                  <a class="dropdown-item" href=""> <i class="fa fa-user icon"></i> Perfil </a>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href=""> <i class="fa fa-power-off icon"></i> Logout </a>
+                  <a class="dropdown-item" href=""> <i class="fa fa-power-off icon"></i> Cerrar Sesión </a>
                 </div>
               </li>
             </ul>
@@ -49,23 +49,20 @@
               <nav class="menu">
                 <ul class="nav metismenu" id="sidebar-menu">
                   <li>
-                    <a href=""> <i class="fa fa-home"></i> Dashboard </a>
+                    <a href=""> <i class="fa fa-home"></i> Inicio </a>
                   </li>
                   <li class="">
-                    <a href="#"> <i class="fa fa-file-excel-o" aria-hidden="true"></i> Files Manager <i class="fa arrow"></i> </a>
+                    <a href="#"> <i class="fa fa-archive fa-lg" aria-hidden="true"></i> Proyectos <i class="fa arrow"></i> </a>
                     <ul>
-                      {% if user.is_vendor_supplier %}
-                      <li class=""> <a href="">
-                        Upload File
+                      <li class=""> <a href="{% url 'projects:project_list' %}">
+                        Proyectos
                       </a> </li>
-                      {% endif %}
                       <li> <a href="">
-                        Files List
+                        Presupuestos
                       </a> </li>
                     </ul>
                   </li>
-                  {% if user.is_admin %}
-                  <li>
+                  <!-- <li>
                     <a href="#"> <i class="fa fa-users"></i> Users <i class="fa arrow"></i> </a>
                     <ul>
                       <li> <a href="">
@@ -94,19 +91,16 @@
                     <a href=""> <i class="fa fa-file-code-o"></i> Scripts </a>
                   </li>
                   <li><a href=""><i class="fa fa-archive"></i> Activity Log </a></li>
-                  {% endif %}
                 </ul>
               </nav>
             </div>
-            {% if user.is_admin %}
             <footer class="sidebar-footer">
               <ul class="nav metismenu" id="customize-menu">
                 <li>
                   <a href=""> <i class="fa fa-trash"></i> Trash </a>
                 </li>
               </ul>
-            </footer>
-            {% endif %}
+            </footer> -->
           </aside>
           <div class="sidebar-overlay" id="sidebar-overlay"></div>
           <article class="content {% block main-class %}{% endblock %}">

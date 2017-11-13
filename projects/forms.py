@@ -2,11 +2,12 @@ from django import forms
 
 from .models import Project, Budget, Entry
 
+
 class BudgetForm(forms.ModelForm):
     class Meta:
         model = Budget
         fields = [
-        "amount",
+            "amount",
         ]
 
 
@@ -22,9 +23,9 @@ class ProjectForm(forms.ModelForm):
             "snip",
             "nog",
             "smip",
-            "budget",
             # "user",
         ]
+
 
 class EntryForm(forms.ModelForm):
     class Meta:

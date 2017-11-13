@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
 
-{% block title %}Agregar Proyecto{% endblock %}
+{% block title %}Agregar Item{% endblock %}
 
 {% block content %}
 <div class="title-block">
-  <h3 class="title">Agregar Proyecto</h3>
-  <p class="title-description">Ingrese la información del proyecto acá.</p>
+  <h3 class="title">Agregar Item</h3>
+  <p class="title-description">Agregar archivo de item</p>
 </div>
 <section class="section">
   <div class="row sameheight-container">
@@ -49,6 +49,10 @@
               <div class="form-group">
                 <label for="{{form.smip.auto_id}}" class="control-label">{{form.smip.label}}</label></br>
                 <p class="text-danger">{{form.smip | append_attr:'class: form-control underlined'}}</p>
+              </div>
+              <div class="form-group">
+                <label for="{{form.budget.auto_id}}" class="control-label">{{form.budget.label}}</label></br>
+                <p class="text-danger">{{form.budget | append_attr:'class: form-control underlined'}}</p>
               </div>
               <div class="form-group text-xs-right">
                 <a href="{% url 'projects:project_list' %}" class="btn btn-danger btn-lg">

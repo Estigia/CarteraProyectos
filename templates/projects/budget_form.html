@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Agregar Presupuesto{% endblock %}
+
+{% block content %}
+<div class="title-block">
+  <h3 class="title">Agregar Presupuesto</h3>
+  <p class="title-description">Inserte acá nombre y monto de presupuesto</p>
+</div>
+<section class="section">
+  <div class="row sameheight-container">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="card card-block sameheight-item">
+          <div class="col-xs-12 col-sm-10 col-md-6 offset-md-3 offset-sm-1">
+            <form action="" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="{{ form.name.auto_id }}" class="control-label">Nombre</label>
+                {{ form.name | append_attr:"class: form-control underlined" }}
+                <p class="text-danger">{{form.name.errors.as_text}}</p>
+              </div>
+              <div class="form-group">
+                <label for="{{form.amount.auto_id}}" class="control-label">Monto Total</label></br>
+                {{form.amount | append_attr:'class: form-control underlined'}}
+                <p class="text-danger">{{form.name.errors.as_text}}</p>
+              </div>
+              <div class="form-group text-xs-right">
+                <a href="{% url 'projects:project_detail' view.kwargs.project_id %}" class="btn btn-danger btn-lg">
+                  <i class="fa fa-times" aria-hidden="true"></i>
+                </a>
+                <button type="submit" name="Upload" class="btn btn-primary btn-lg">
+                  <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

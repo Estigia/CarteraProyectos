@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/jquery.json-viewer.css' %}">
+  {% block more_css %}{% endblock %}
 </head>
 
 <body>
@@ -29,7 +30,7 @@
             <li class="profile dropdown">
               <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                 <div class="img" > <i class = "fa fa-user fa-lg" aria-hidden = "true"></i> </div> <span class="name">
-                  {{user.username}}
+                  {{user}}
                 </span> </a>
                 <div class="dropdown-menu profile-dropdown-menu" aria-labelledby="dropdownMenu1">
                   <a class="dropdown-item" href=""> <i class="fa fa-user icon"></i> Perfil </a>
@@ -49,64 +50,24 @@
               <nav class="menu">
                 <ul class="nav metismenu" id="sidebar-menu">
                   <li>
-                    <a href=""> <i class="fa fa-home"></i> Inicio </a>
-                  </li>
-                  <li class="">
-                    <a href="#"> <i class="fa fa-archive fa-lg" aria-hidden="true"></i> Proyectos <i class="fa arrow"></i> </a>
-                    <ul>
-                      <li class=""> <a href="{% url 'projects:project_list' %}">
-                        Proyectos
-                      </a> </li>
-                      <li> <a href="">
-                        Presupuestos
-                      </a> </li>
-                    </ul>
-                  </li>
-                  <!-- <li>
-                    <a href="#"> <i class="fa fa-users"></i> Users <i class="fa arrow"></i> </a>
-                    <ul>
-                      <li> <a href="">
-                        Suppliers
-                      </a> </li>
-                      <li> <a href="">
-                        Administrators
-                      </a> </li>
-                    </ul>
+                    <a href="{% url 'projects:project_list' %}"> <i class="fa fa-archive fa-lg" aria-hidden="true"></i> Proyectos  </a>
                   </li>
                   <li>
-                    <a href="#"> <i class="fa fa-cogs"></i> Configurations <i class="fa arrow"></i> </a>
-                    <ul>
-                      <li> <a href="">
-                        Reports
-                      </a></li>
-                      <li> <a href="">
-                        Frequencies
-                      </a> </li>
-                      <li> <a href="">
-                        Messages
-                      </a> </li>
-                    </ul>
+                    <a href=""><i class="fa fa-file-text fa-lg"></i> Ítems</a>
                   </li>
                   <li>
-                    <a href=""> <i class="fa fa-file-code-o"></i> Scripts </a>
+                    <a href=""><i class="fa fa-money"></i> Presupuestos</a>
                   </li>
-                  <li><a href=""><i class="fa fa-archive"></i> Activity Log </a></li>
                 </ul>
               </nav>
             </div>
-            <footer class="sidebar-footer">
-              <ul class="nav metismenu" id="customize-menu">
-                <li>
-                  <a href=""> <i class="fa fa-trash"></i> Trash </a>
-                </li>
-              </ul>
-            </footer> -->
-          </aside>
-          <div class="sidebar-overlay" id="sidebar-overlay"></div>
-          <article class="content {% block main-class %}{% endblock %}">
-            {% block content %}
-            {% endblock %}
-          </article>
+          </div>
+        </aside>
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+        <article class="content {% block main-class %}{% endblock %}">
+          {% block content %}
+          {% endblock %}
+        </article>
           <!-- <footer class="footer">
             <div class="footer-block buttons"></div>
             <div class="footer-block author">

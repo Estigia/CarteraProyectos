@@ -12,6 +12,7 @@ from django.views.generic import (
 )
 
 from .models import Project, Budget, Entry
+from items.models import Item, File
 
 
 # Project views
@@ -34,6 +35,13 @@ class ProjectDetailView(DetailView):
     model = Project
     template_name = 'projects/project_detail.html'
 
+    def get_context_data(self, *args, **kwargs):
+        ctx = super(ProjectDetailView, self).get_context_data(*args, **kwargs)
+
+        ctx['files'] = File.objects.filter(project=self.object)
+
+        return ctx
+
 
 class ProjectCreateView(SuccessMessageMixin, CreateView):
     model = Project
@@ -48,7 +56,6 @@ class ProjectCreateView(SuccessMessageMixin, CreateView):
         'snip',
         'nog',
         'smip',
-        'budget',
         # 'user'
     ]
     success_url = reverse_lazy('projects:project_list')
@@ -67,7 +74,6 @@ class ProjectUpdateView(SuccessMessageMixin, UpdateView):
         'snip',
         'nog',
         'smip',
-        'budget',
         # 'user'
     ]
     success_url = reverse_lazy('projects:project_list')
@@ -86,17 +92,44 @@ class BudgetCreateView(CreateView):
     template_name = "projects/budget_form.html"
     fields = [
         "amount",
+        "name"
     ]
     success_url = reverse_lazy('projects:budget_list')
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.project = Project.objects.get(
+            pk=self.kwargs.get('project_id')
+        )
+        self.object.save()
+        self.success_url = reverse_lazy(
+            'projects:project_detail',
+            kwargs={
+                'pk': self.kwargs.get('project_id')
+            }
+        )
+
+        return super(BudgetCreateView, self).form_valid(form)
 
 
 class BudgetUpdateView(UpdateView):
     model = Budget
     template_name = "projects/budget_form.html"
     fields = [
+        "name",
         "amount",
     ]
     success_url = reverse_lazy('projects:budget_list')
+
+    def get_success_url(self):
+        self.success_url = reverse_lazy(
+            'projects:project_detail',
+            kwargs={
+                'pk': self.kwargs.get('project_id')
+            }
+        )
+
+        return super(BudgetUpdateView, self).get_success_url()
 
 
 # Entrys views
@@ -118,6 +151,21 @@ class EntryCreateView(CreateView):
     ]
     success_url = reverse_lazy('projects:entry_list')
 
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.budget = Budget.objects.get(
+            pk=self.kwargs.get('budget_id')
+        )
+        self.object.save()
+        self.success_url = reverse_lazy(
+            'projects:project_detail',
+            kwargs={
+                'pk': self.kwargs.get('project_id')
+            }
+        )
+
+        return super(EntryCreateView, self).form_valid(form)
+
 
 class EntryUpdateView(UpdateView):
     model = Entry
@@ -129,3 +177,13 @@ class EntryUpdateView(UpdateView):
         "unit_cost",
     ]
     success_url = reverse_lazy('projects:entry_list')
+
+    def get_success_url(self):
+        self.success_url = reverse_lazy(
+            'projects:project_detail',
+            kwargs={
+                'pk': self.kwargs.get('project_id')
+            }
+        )
+
+        return super(EntryUpdateView, self).get_success_url()

@@ -10,7 +10,7 @@
     <div class="row">
       <div class="col-md-6">
         <h3 class="title"> Proyectos <a href="{% url 'projects:project_new' %}" class="btn btn-primary btn-sm rounded-s">
-            <i class="fa fa-plus" aria-hidden="true"></i>
+            <i class="fa fa-plus" aria-hidden="true"></i> Agregar Proyecto
           </a>
         </h3>
         <p class="title-description"> Lista de proyectos </p>
@@ -83,9 +83,10 @@
       </span> </a>
       <div class="item-actions-block">
         <ul class="item-actions-list">
-          <li>
+          <!-- <li>
             <a class="remove" href="#" > <i class="fa fa-trash-o "></i> </a>
-          </li>
+          </li> -->
+          <li><a href="{% url 'projects:project_detail' project.id %}"><i class="fa fa-eye"></i></a></li>
           <li>
             <a class="edit" href="{% url 'projects:project_edit' project.id %}"> <i class="fa fa-pencil"></i> </a>
           </li>

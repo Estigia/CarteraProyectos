@@ -8,19 +8,20 @@ class ItemAdmin(admin.ModelAdmin):
         "id",
         "name",
         "attendant",
-        "status",
-        # "project",
-        # "budget",
         "create_time",
         "update_time",
     ]
     form = ItemForm
 
+
 class FileAdmin(admin.ModelAdmin):
     list_display = [
         "id",
         "file",
+        "status",
         "create_time",
+        "update_time",
+        "project",
         "item",
     ]
     form = FileForm

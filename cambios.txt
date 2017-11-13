@@ -1,2 +1,4 @@
 . Nombre del presupuesto.
 . Indicarle al usuario los campos requeridos.
+. Estado de los items
+. Control de versiones de los archivos

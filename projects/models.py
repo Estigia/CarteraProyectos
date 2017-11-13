@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+from django.conf import settings
 
 
 class Budget(models.Model):
@@ -9,8 +10,10 @@ class Budget(models.Model):
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
 
+    project = models.OneToOneField('Project', related_name='budget')
+
     def __str__(self):
-        return str(self.amount)
+        return self.name
 
 
 class Project(models.Model):
@@ -48,8 +51,8 @@ class Project(models.Model):
     smip = models.CharField(max_length=45, blank=True, null=True)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
-    budget = models.ForeignKey('Budget')
-    # user = models.ForeignKey('users.User')
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
 
     def __str__(self):
         return self.name
@@ -70,3 +73,7 @@ class Entry(models.Model):
 
     def __str__(self):
         return self.description
+
+    @property
+    def total_cost(self):
+        return self.quantity*self.unit_cost

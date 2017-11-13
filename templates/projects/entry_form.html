@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Agregar Rubro{% endblock %}
+
+{% block content %}
+<div class="title-block">
+  <h3 class="title">Agregar Rubro</h3>
+  <p class="title-description">Ingrese acá información del rubro</p>
+</div>
+<section class="section">
+  <div class="row sameheight-container">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="card card-block sameheight-item">
+          <div class="col-xs-12 col-sm-6 col-md-5 offset-md-1 offset-sm-1">
+            <form action="" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="{{ form.description.auto_id }}" class="control-label">Descripción</label>
+                {{ form.description | append_attr:"class: form-control underlined" }}
+                <p class="text-danger">{{form.description.errors.as_text}}</p>
+              </div>
+              <div class="form-group">
+                <label for="{{form.quantity.auto_id}}" class="control-label">Cantidad</label>
+                {{form.quantity | append_attr:'class: form-control underlined'}}
+                <p class="text-danger">{{form.quantity.errors.as_text}}</p>
+              </div>
+              <div class="form-group">
+                <label for="{{form.unity.auto_id}}" class="control-label">Unidad</label></br>
+                {{form.unity | append_attr:'class: form-control underlined' }}
+                <p class="text-danger">{{form.unity.errors.as_text}}</p>
+              </div>
+              <div class="form-group">
+                <label for="{{form.unit_cost.auto_id}}" class="control-label">Costo Unitario</label></br>
+                {{form.unit_cost | append_attr:'class: form-control underlined' }}
+                <p class="text-danger">{{form.unit_cost.errors.as_text}}</p>
+              </div>
+              <div class="form-group text-xs-right">
+                <a href="{% url 'projects:project_detail' view.kwargs.project_id %}" class="btn btn-danger btn-lg">
+                  <i class="fa fa-times" aria-hidden="true"></i>
+                </a>
+                <button type="submit" name="Upload" class="btn btn-primary btn-lg">
+                  <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+          <div class="col-xs-12 col-sm-3 col-md-4 offset-md-1 offset-sm-1">
+              <label for="total_cost" class="control-label">Costo Total</label>
+              <h2>Q. <em id="calc"></em></h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block js %}
+<script>
+    $(document).ready(function(){
+      //function to calculate total
+      calculateTotal = function(){
+          var total = (parseFloat($('#{{form.quantity.auto_id}}').val()) || 0.0 ) *
+                      (parseFloat($('#{{form.unit_cost.auto_id}}').val()) || 0.0 );
+        
+          total = total
+                    .toFixed(2)
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
+          $('#calc').text(total);
+      };
+      $('#{{form.quantity.auto_id}}').keyup(function(){
+          calculateTotal();
+      });
+      $('#{{form.unit_cost.auto_id}}').keyup(function(){
+          calculateTotal();
+      });
+
+      calculateTotal();
+});
+</script>
+{% endblock %}

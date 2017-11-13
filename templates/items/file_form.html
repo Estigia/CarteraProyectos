@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Agregar Item{% endblock %}
+
+{% block content %}
+<div class="title-block">
+  <h3 class="title">Agregar Item</h3>
+  <p class="title-description">Agregar archivo de item</p>
+</div>
+<section class="section">
+  <div class="row sameheight-container">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="card card-block sameheight-item">
+          <div class="col-xs-12 col-sm-10 col-md-6 offset-md-3 offset-sm-1">
+            <form action="" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="{{ form.file.auto_id }}" class="control-label">Archivo</label>
+                {{ form.file | append_attr:"class: form-control underlined" }}
+                <p class="text-danger">{{form.file.errors.as_text}}</p>
+              </div>
+              <div class="form-group">
+                <label for="{{form.status.auto_id}}" class="control-label">Estado</label>
+                {{form.status | append_attr:'class: form-control underlined'}}
+                <p class="text-danger">{{form.status.errors.as_text}}</p>
+              </div>
+              <div class="form-group">
+                <label for="{{form.item.auto_id}}" class="control-label">Ítem</label></br>
+                {{form.item | append_attr:'class: form-control'}}
+                <p class="text-danger">{{form.item.errors.as_text}}</p>
+              </div>
+              <div class="form-group text-xs-right">
+                <a href="{% url 'projects:project_detail' view.kwargs.project_id %}" class="btn btn-danger btn-lg">
+                  <i class="fa fa-times" aria-hidden="true"></i>
+                </a>
+                <button type="submit" name="submit" class="btn btn-primary btn-lg">
+                  <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

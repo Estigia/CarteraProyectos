@@ -17,10 +17,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
+from users.views import log_in
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^accounts/', include('django.contrib.auth.urls', namespace='auth')),
+    url(r'^logout/$', auth_views.logout, {'next_page': 'login'}, name='logout'),
+    url(r'^$', log_in, name='login'),
     url(r'^items/', include('items.urls', namespace='items')),
     url(r'^projects/', include('projects.urls', namespace='projects')),
 ]

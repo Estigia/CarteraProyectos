@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}{{file.item}}{% endblock %}
+
+{% block main-title %}dashboard-page{% endblock %}
+
+{% block more_css %}
+<link rel="stylesheet" href="{% static 'css/reset.css' %}">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="title-search-block">
+    <div class="title-block">
+      <div class="row">
+        <div class="col-md-6">
+            <h3 class="title"> {{file.item}} </h3>
+            <p class="title-description">
+                Información de archivo
+            </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a href="{% url 'projects:project_detail' view.kwargs.project_id %}" class="btn btn-primary btn-lg"><i class="fa fa-arrow-left"></i></a>
+<section class="section ">
+  <div class="row">
+    <div class="col col-sm-12">
+      <div class="card card-primary sameheight-item">
+        <div class="card-header">
+          <div class="header-block">
+            <p class="title">Información general</p>
+          </div>
+          <div class="header-block pull-right">
+            <a href="{{file.get_media_path}}" class="btn btn-success btn-lg">
+                <i class="fa fa-download fa-lg"></i> Descargar
+            </a>
+          </div>
+        </div>
+        <div class="card-block">
+            <div class="row">
+                <div class="col-sm-2">
+                    <i class="fa fa-file-text-o fa-5x"></i>
+                </div>
+                <div class="col-sm-4">
+                    <p><strong>Estado: </strong> {{file.get_status_display}}</p>
+                    <p><strong>Proyecto: </strong> {{file.project}}</p>
+                </div>
+                <div class="col-sm-4">
+                    <p><strong>Ultima Actualización: </strong> {{file.update_time}}</p>
+                </div>
+            </div>
+        </div>
+          <div class="card-footer">
+          <p>Fecha de Creación: {{file.create_time}}</p>
+          <p>Version: {{file.actual_version}}</p>
+          </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% if file.version_set.all %}
+<br>
+<div class="title-search-block">
+    <div class="title-block">
+        <div class="row">
+        <div class="col-md-6">
+            <h3 class="title"> Historia del Archivo</h3>
+        </div>
+        </div>
+    </div>
+</div>
+<section id="cd-timeline" class="cd-container">
+
+    {% for version in file.version_set.all %}
+    <div class="cd-timeline-block">
+        <div class="cd-timeline-img cd-picture">
+        </div> <!-- cd-timeline-img -->
+
+        <div class="cd-timeline-content">
+            <h2>{{version.actual_file.item}} (Versión: {{version.version}})</h2>
+            <p><strong>Estado: </strong>{{version.get_status_display}}</p>
+            <p><strong>Modificado por: </strong>{{version.user.get_full_name}}</p>
+            <a href="{{version.get_media_path}}" class="btn btn-success btn-lg">
+                <i class="fa fa-download fa-lg"></i> Descargar
+            </a>
+            <span class="cd-date">{{version.update_time}}</span>
+        </div> <!-- cd-timeline-content -->
+    </div> <!-- cd-timeline-block -->
+    {% endfor %}
+
+</section>
+{% endif %}
+    
+{% endblock %}
+
+{% block js %}
+<!-- <script src="{% static 'js/main.js' %}"></script> -->
+<script src="{% static 'js/modernizr.js' %}"></script>
+{% endblock %}

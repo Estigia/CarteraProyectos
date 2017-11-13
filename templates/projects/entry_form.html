@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
+{% load humanize %}
 
 {% block title %}Agregar Rubro{% endblock %}
 
@@ -43,12 +44,19 @@
                 <button type="submit" name="Upload" class="btn btn-primary btn-lg">
                   <i class="fa fa-floppy-o" aria-hidden="true"></i>
                 </button>
+                <button id="error" type="button" class="btn btn-danger btn-lg">
+                  Sin disponibilidad de presupuesto
+                </button>
               </div>
             </form>
           </div>
-          <div class="col-xs-12 col-sm-3 col-md-4 offset-md-1 offset-sm-1">
-              <label for="total_cost" class="control-label">Costo Total</label>
+          <div id="total" class="col-xs-12 col-sm-3 col-md-3">
+              <label for="calc" class="control-label">Costo Total</label>
               <h2>Q. <em id="calc"></em></h2>
+          </div>
+          <div class="col-xs-12 col-sm-3 col-md-3">
+              <label for="available" class="control-label">Disponible</label>
+              <h2>Q. <em id="available">{{amount|floatformat:2|intcomma}}</em></h2>
           </div>
         </div>
       </div>
@@ -74,12 +82,31 @@
       };
       $('#{{form.quantity.auto_id}}').keyup(function(){
           calculateTotal();
+          if(parseFloat($('#calc')[0].innerHTML.replace(',', '')) > parseFloat($('#available')[0].innerHTML.replace(',', ''))){
+            $('#total').addClass('text-danger')
+            $('button[type=submit]').hide()
+            $('#error').show()
+          }else{
+            $('#total').removeClass('text-danger')
+            $('button[type=submit]').show()
+            $('#error').hide()
+          }
       });
       $('#{{form.unit_cost.auto_id}}').keyup(function(){
           calculateTotal();
+          if(parseFloat($('#calc')[0].innerHTML.replace(',', '')) > parseFloat($('#available')[0].innerHTML.replace(',', ''))){
+            $('#total').addClass('text-danger')
+            $('button[type=submit]').hide()
+            $('#error').show()
+          }else{
+            $('#total').removeClass('text-danger')
+            $('button[type=submit]').show()
+            $('#error').hide()
+          }
       });
 
       calculateTotal();
+      $('#error').hide()
 });
 </script>
 {% endblock %}

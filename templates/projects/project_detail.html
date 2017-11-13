@@ -35,7 +35,7 @@
   </div>
 <section class="section ">
   <div class="row">
-    <div class="col col-sm-12 col-md-4">
+    <div class="col col-sm-12 col-md-12">
       <div class="card card-primary sameheight-item">
         <div class="card-header">
           <div class="header-block">
@@ -43,7 +43,7 @@
           </div>
         </div>
         <div class="card-block">
-          <p><strong>Dirrección: </strong> {{project.location}}</p>
+          <p><strong>Dirección: </strong> {{project.location}}</p>
           <p><strong>Tipo de Proyecto: </strong> {{project.get_project_type_display}}</p>
         </div>
           <div class="card-footer">
@@ -51,7 +51,7 @@
           </div>
       </div>
     </div>
-    <div class="col-sm-12 col-md-8">
+    <div class="col-sm-12 col-md-12">
       <div class="card card-info sameheight-item items" data-exclude="xs,sm,lg">
         <div class="card-header bordered">
           <div class="header-block">
@@ -76,7 +76,7 @@
             <tbody>
               {% for file in files %}
               <tr>
-                <td><a href="">{{file.item}}</a></td>
+                <td><a href="{% url 'items:file_detail' project.id file.id %}">{{file.item}}</a></td>
                 <td>{{file.item.attendant}}</td>
                 <td>{{file.update_time}}</td>
                 <td>
@@ -100,6 +100,8 @@
             {% if project.budget %}
             <div class="header-block">
               <h3 class="title"> {{project.budget}} </h3>
+              <br>
+              <h5 class="title">Monto Total: Q.{{project.budget.amount|floatformat:2|intcomma}}</h5>
             </div>
             <div class="header-block pull-right">
               <a href="{% url 'projects:entry_new' project.id project.budget.id %}" class="btn btn-primary btn-sm">
@@ -148,7 +150,7 @@
                 {% endfor %}
               </tbody>
               <tfoot align="right">
-                <tr><th></th><th></th><th></th><th></th><th></th></tr>
+                <tr><th></th><th></th><th></th><th>Total: </th><td>Q {{amount|floatformat:2|intcomma}}</td></tr>
               </tfoot>
             </table>
             {% else %}
@@ -177,6 +179,7 @@
 
     $('#item-table').DataTable( {
       responsive: "True",
+      order: [[2, "desc"]],
       lengthMenu: [ 5, 10, 25, 50],
       language: {
         search: "Buscar",

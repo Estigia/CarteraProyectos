@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
+from math import fsum
 
 from django.shortcuts import render
+from django.db.models import Sum
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import TemplateView, ListView
 from django.core.urlresolvers import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (
     CreateView,
     UpdateView,
@@ -16,7 +19,7 @@ from items.models import Item, File
 
 
 # Project views
-class ProjectListView(ListView):
+class ProjectListView(LoginRequiredMixin, ListView):
     model = Project
     template_name = "projects/project_list.html"
     context_object_name = "projects"
@@ -31,7 +34,7 @@ class ProjectListView(ListView):
         return qs
 
 
-class ProjectDetailView(DetailView):
+class ProjectDetailView(LoginRequiredMixin, DetailView):
     model = Project
     template_name = 'projects/project_detail.html'
 
@@ -39,11 +42,13 @@ class ProjectDetailView(DetailView):
         ctx = super(ProjectDetailView, self).get_context_data(*args, **kwargs)
 
         ctx['files'] = File.objects.filter(project=self.object)
+        if self.object.budget:
+            ctx['amount'] = fsum([x.total_cost for x in self.object.budget.entry_set.all()])
 
         return ctx
 
 
-class ProjectCreateView(SuccessMessageMixin, CreateView):
+class ProjectCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Project
     template_name = "projects/project_form.html"
     success_message = '%(name)s se agregó correctamente.'
@@ -61,7 +66,7 @@ class ProjectCreateView(SuccessMessageMixin, CreateView):
     success_url = reverse_lazy('projects:project_list')
 
 
-class ProjectUpdateView(SuccessMessageMixin, UpdateView):
+class ProjectUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Project
     template_name = "projects/project_form.html"
     success_message = '%(name)s se modificó correctamente.'
@@ -80,14 +85,14 @@ class ProjectUpdateView(SuccessMessageMixin, UpdateView):
 
 
 # Budget views
-class BudgetListView(ListView):
+class BudgetListView(LoginRequiredMixin, ListView):
     model = Budget
     template_name = "projects/budget_list.html"
     context_object_name = "budgets"
     paginate_by = 10
 
 
-class BudgetCreateView(CreateView):
+class BudgetCreateView(LoginRequiredMixin, CreateView):
     model = Budget
     template_name = "projects/budget_form.html"
     fields = [
@@ -112,7 +117,7 @@ class BudgetCreateView(CreateView):
         return super(BudgetCreateView, self).form_valid(form)
 
 
-class BudgetUpdateView(UpdateView):
+class BudgetUpdateView(LoginRequiredMixin, UpdateView):
     model = Budget
     template_name = "projects/budget_form.html"
     fields = [
@@ -133,14 +138,14 @@ class BudgetUpdateView(UpdateView):
 
 
 # Entrys views
-class EntryListView(ListView):
+class EntryListView(LoginRequiredMixin, ListView):
     model = Entry
     template_name = "projects/entry_list.html"
     context_object_name = "entrys"
     paginate_by = 10
 
 
-class EntryCreateView(CreateView):
+class EntryCreateView(LoginRequiredMixin, CreateView):
     model = Entry
     template_name = "projects/entry_form.html"
     fields = [
@@ -150,6 +155,16 @@ class EntryCreateView(CreateView):
         "unit_cost",
     ]
     success_url = reverse_lazy('projects:entry_list')
+
+    def get_context_data(self, *args, **kwargs):
+        ctx = super(EntryCreateView, self).get_context_data(*args, **kwargs)
+        budget = Budget.objects.get(
+            pk=self.kwargs.get('budget_id')
+        )
+
+        ctx['amount'] = budget.amount - fsum([x.total_cost for x in budget.entry_set.all()])
+
+        return ctx
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -167,7 +182,7 @@ class EntryCreateView(CreateView):
         return super(EntryCreateView, self).form_valid(form)
 
 
-class EntryUpdateView(UpdateView):
+class EntryUpdateView(LoginRequiredMixin, UpdateView):
     model = Entry
     template_name = "projects/entry_form.html"
     fields = [
@@ -177,6 +192,16 @@ class EntryUpdateView(UpdateView):
         "unit_cost",
     ]
     success_url = reverse_lazy('projects:entry_list')
+
+    def get_context_data(self, *args, **kwargs):
+        ctx = super(EntryUpdateView, self).get_context_data(*args, **kwargs)
+        project = Project.objects.get(
+            pk=self.kwargs.get('project_id')
+        )
+
+        ctx['amount'] = project.budget.amount - fsum([x.total_cost for x in project.budget.entry_set.all()])
+
+        return ctx
 
     def get_success_url(self):
         self.success_url = reverse_lazy(

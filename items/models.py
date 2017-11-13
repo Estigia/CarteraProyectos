@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+from django.conf import settings
 
 
 class Item(models.Model):
@@ -45,6 +46,9 @@ class File(models.Model):
     def __str__(self):
         return self.file.name
 
+    def get_media_path(self):
+        return "{}{}".format(settings.MEDIA_URL, self.file)
+
 
 class Version(models.Model):
     STATUS_PROJECT_CHOICES = (
@@ -64,9 +68,13 @@ class Version(models.Model):
         default='0'
     )
     actual_file = models.ForeignKey('File')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
 
     def __str__(self):
         return self.file.name
+
+    def get_media_path(self):
+        return "{}{}".format(settings.MEDIA_URL, self.file)
 
     class Meta:
         ordering = ['-update_time']

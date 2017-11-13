@@ -1,24 +1,17 @@
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_save
+from django.dispatch import receiver
+from django.utils import timezone
 
 from .models import File, Version
 
 
-@receiver(pre_save, sender=File)
+@receiver(post_save, sender=File)
 def file_uploaded(sender, instance, **kwargs):
-    try:
-        old_instance = File.objects.get(pk=instance.id)
-        Version.objects.create(
-            version=old_instance.actual_version,
-            file=old_instance.file,
-            status=old_instance.status,
-            actual_file=instance,
-            update_time=old_instance.update_time
-        )
-    except:
-        Version.objects.create(
-            version=instance.actual_version,
-            file=instance.file,
-            status=instance.status,
-            actual_file=instance,
-            update_time=instance.update_time
-        )
+    Version.objects.create(
+        version=instance.actual_version,
+        file=instance.file,
+        status=instance.status,
+        actual_file=instance,
+        update_time=instance.update_time,
+        user=instance._user
+    )
